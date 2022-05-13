@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import ProductForm from "./components/ProductForm";
+import ProductList from "./components/ProductList";
 
 function App() {
+  const [productList, setProductList] = useState([]);
+
+  const onProductFormSubmit = (productDetails) => {
+    const newproduct = {
+      ...productDetails,
+      ProductId: Math.random().toString(),
+    };
+    setProductList((prevProducts) => {
+      return [...prevProducts, newproduct];
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1 className="form-heading">Product Form</h1>
+      <ProductForm onSubmit={onProductFormSubmit} />
+      {productList.length > 0 && <ProductList products={productList} />}
     </div>
   );
 }
